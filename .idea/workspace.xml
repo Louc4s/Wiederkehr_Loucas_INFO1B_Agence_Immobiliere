@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a747b6b2-f3d2-4f16-a106-9dfcc00a12ef" name="Changes" comment="2" />
+    <list default="true" id="a747b6b2-f3d2-4f16-a106-9dfcc00a12ef" name="Changes" comment="2s" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,12 +69,27 @@
       <option name="project" value="LOCAL" />
       <updated>1685904666352</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="2s">
+      <created>1685905039988</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685905039988</updated>
+    </task>
+    <task id="LOCAL-00003" summary="2s">
+      <created>1685905251534</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685905251534</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2" />
-    <option name="LAST_COMMIT_MESSAGE" value="2" />
+    <MESSAGE value="2s" />
+    <option name="LAST_COMMIT_MESSAGE" value="2s" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
