@@ -5,11 +5,20 @@
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Ajouter un nouveau BIEN (WTForms)
+				Ajouter un nouveau Bien
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
 				{{ form.hidden_tag() }}
+				<div class="form-group">
+					<p>
+						{{ form.fk_client.label }}<br>
+						{{ form.fk_client() }}<br>
+						{% for error in form.fk_client.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+				</div>
 				<div class="form-group">
 					<p>
 						{{ form.nom_genre_wtf.label }}<br>
@@ -19,10 +28,28 @@
 						{% endfor %}
 					</p>
 				</div>
+				<div class="form-group">
+					<p>
+						{{ form.nb_piece.label }}<br>
+						{{ form.nb_piece() }}<br>
+						{% for error in form.nb_piece.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+				</div>
+				<div class="form-group">
+					<p>
+						{{ form.prix.label }}<br>
+						{{ form.prix() }}<br>
+						{% for error in form.prix.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+						<!-- Affichez les erreurs de validation pour le champ prix -->
+					</p>
+				</div>
 				{{ form.submit(class="btn btn-primary") }}
 			</form>
 		</div>
 	</div>
 </div>
 {% endblock %}
-

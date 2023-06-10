@@ -103,26 +103,35 @@ def genres_ajouter_wtf():
             if form.validate_on_submit():
                 name_genre_wtf = form.nom_genre_wtf.data
                 name_genre = name_genre_wtf.lower()
-                valeurs_insertion_dictionnaire = {"value_intitule_genre": name_genre}
-                print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
+                nb_piece = form.nb_piece.data
+                prix = form.prix.data
 
-                strsql_insert_genre = """INSERT INTO t_biens (id_biens, description_bien) VALUES (NULL,%(value_intitule_genre)s) """
+                fk_client = form.fk_client.data  # Récupérer la valeur de fk_client du formulaire
+
+                valeurs_insertion_dictionnaire = {
+                    "fk_client": fk_client,
+                    "value_intitule_genre": name_genre,
+                    "value_nb_piece": nb_piece,
+                    "value_prix": prix
+                }
+
+                strsql_insert_genre = """
+                INSERT INTO t_biens (fk_client, description_bien, nb_piece, prix)
+                VALUES (%(fk_client)s, %(value_intitule_genre)s, %(value_nb_piece)s, %(value_prix)s)
+                """
+
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_genre, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")
-
-                # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('genres_afficher', order_by='DESC', id_genre_sel=0))
 
         except Exception as Exception_genres_ajouter_wtf:
-            raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+            raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name} ; "
                                             f"{genres_ajouter_wtf.__name__} ; "
                                             f"{Exception_genres_ajouter_wtf}")
 
     return render_template("genres/genres_ajouter_wtf.html", form=form)
-
 
 """
     Auteur : OM 2021.03.29
@@ -151,57 +160,72 @@ def genre_update_wtf():
 
     # Objet formulaire pour l'UPDATE
     form_update = FormWTFUpdateGenre()
+
     try:
-        # 2023.05.14 OM S'il y a des listes déroulantes dans le formulaire
-        # La validation pose quelques problèmes
-        if request.method == "POST" and form_update.submit.data:
-            # Récupèrer la valeur du champ depuis "genre_update_wtf.html" après avoir cliqué sur "SUBMIT".
-            # Puis la convertir en lettres minuscules.
-            name_genre_update = form_update.nom_genre_update_wtf.data
-            name_genre_update = name_genre_update.lower()
-            date_genre_essai = form_update.date_genre_wtf_essai.data
+        if request.method == "POST" and form_update.validate_on_submit():
+            # Récupérer les valeurs des champs depuis le formulaire après avoir cliqué sur "SUBMIT"
+            fk_client = form_update.fk_client.data
+            description_bien = form_update.description_bien.data
+            nb_piece = form_update.nb_piece.data
+            prix = form_update.prix.data
 
-            valeur_update_dictionnaire = {"value_id_genre": id_genre_update,
-                                          "value_name_genre": name_genre_update,
-                                          "value_date_genre_essai": date_genre_essai
-                                          }
-            print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
+            # Exécuter la requête SQL pour mettre à jour les valeurs dans la table t_biens
+            str_sql_update_genre = """
+            UPDATE t_biens
+            SET fk_client = %(value_fk_client)s,
+                description_bien = %(value_description_bien)s,
+                nb_piece = %(value_nb_piece)s,
+                prix = %(value_prix)s
+            WHERE id_biens = %(value_id_genre)s
+            """
 
-            str_sql_update_intitulegenre = """UPDATE t_biens SET fk_client = %(value_name_genre)s, 
-                        description_bien = %(value_date_genre_essai)s WHERE id_biens = %(value_id_genre)s """
+            valeur_update_dictionnaire = {
+                "value_fk_client": fk_client,
+                "value_description_bien": description_bien,
+                "value_nb_piece": nb_piece,
+                "value_prix": prix,
+                "value_id_genre": id_genre_update
+            }
+
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_intitulegenre, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_genre, valeur_update_dictionnaire)
 
-            flash(f"Donnée mise à jour !!", "success")
-            print(f"Donnée mise à jour !!")
+            flash("Données mises à jour avec succès !", "success")
 
-            # afficher et constater que la donnée est mise à jour.
-            # Affiche seulement la valeur modifiée, "ASC" et l'"id_genre_update"
+            # Rediriger vers la page genres_afficher avec les paramètres appropriés
             return redirect(url_for('genres_afficher', order_by="ASC", id_genre_sel=id_genre_update))
-        elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-            str_sql_id_genre = "SELECT * FROM t_biens WHERE id_biens = %(value_id_genre)s"
-            valeur_select_dictionnaire = {"value_id_genre": id_genre_update}
-            with DBconnection() as mybd_conn:
-                mybd_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)
-            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
-            data_nom_genre = mybd_conn.fetchone()
-            print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " id_biens ",
-                  data_nom_genre["description_bien"])
 
-            # Afficher la valeur sélectionnée dans les champs du formulaire "genre_update_wtf.html"
-            form_update.nom_genre_update_wtf.data = data_nom_genre["description_bien"]
-            form_update.date_genre_wtf_essai.data = data_nom_genre["fk_client"]
+        elif request.method == "GET":
+            # Récupérer les valeurs actuelles du genre à partir de la base de données
+            str_sql_select_genre = """
+            SELECT fk_client, description_bien, nb_piece, prix
+            FROM t_biens
+            WHERE id_biens = %(value_id_genre)s
+            """
+
+            valeur_select_dictionnaire = {"value_id_genre": id_genre_update}
+
+            with DBconnection() as mybd_conn:
+                mybd_conn.execute(str_sql_select_genre, valeur_select_dictionnaire)
+                data_genre = mybd_conn.fetchone()
+
+            # Afficher les valeurs actuelles dans les champs du formulaire
+            form_update.fk_client.data = data_genre["fk_client"]
+            form_update.description_bien.data = data_genre["description_bien"]
+            form_update.nb_piece.data = data_genre["nb_piece"]
+            form_update.prix.data = data_genre["prix"]
 
     except Exception as Exception_genre_update_wtf:
         raise ExceptionGenreUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{genre_update_wtf.__name__} ; "
                                       f"{Exception_genre_update_wtf}")
 
+    # Rendre le template avec le formulaire
     return render_template("genres/genre_update_wtf.html", form_update=form_update)
 
 
-"""
+
+""""
     Auteur : OM 2021.04.08
     Définition d'une "route" /genre_delete
     
@@ -247,8 +271,10 @@ def genre_delete_wtf():
                 valeur_delete_dictionnaire = {"value_id_genre": id_genre_delete}
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-                str_sql_delete_films_genre = """DELETE FROM t_genre_film WHERE fk_genre = %(value_id_genre)s"""
-                str_sql_delete_idgenre = """DELETE FROM t_genre WHERE id_genre = %(value_id_genre)s"""
+                str_sql_delete_idgenre = """DELETE FROM t_biens WHERE fk_client = %(value_id_genre)s"""
+                str_sql_delete_films_genre = """DELETE FROM t_biens WHERE id_biens = %(value_id_genre)s"""
+
+
                 # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
                 with DBconnection() as mconn_bd:
@@ -266,10 +292,10 @@ def genre_delete_wtf():
             print(id_genre_delete, type(id_genre_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_genres_films_delete = """SELECT id_genre_film, nom_film, id_genre, intitule_genre FROM t_genre_film 
-                                            INNER JOIN t_film ON t_genre_film.fk_film = t_film.id_film
-                                            INNER JOIN t_genre ON t_genre_film.fk_genre = t_genre.id_genre
-                                            WHERE fk_genre = %(value_id_genre)s"""
+
+            str_sql_genres_films_delete = """SELECT id_biens, description_bien, id_biens FROM t_biens
+                                            WHERE fk_client = %(value_id_genre)s"""
+
 
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
@@ -281,7 +307,7 @@ def genre_delete_wtf():
                 session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-                str_sql_id_genre = "SELECT id_genre, intitule_genre FROM t_genre WHERE id_genre = %(value_id_genre)s"
+                str_sql_id_genre = "SELECT id_biens, description_bien FROM t_biens WHERE id_biens = %(value_id_genre)s"
 
                 mydb_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
