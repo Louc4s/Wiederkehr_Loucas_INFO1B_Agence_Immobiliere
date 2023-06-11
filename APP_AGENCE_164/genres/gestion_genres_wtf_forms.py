@@ -6,43 +6,34 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, StringField, DecimalField
 from wtforms import SubmitField
-from wtforms.validators import Length, InputRequired, DataRequired
+from wtforms.validators import Length, InputRequired
 from wtforms.validators import Regexp
 
-
-from wtforms import IntegerField
-
 class FormWTFAjouterGenres(FlaskForm):
-    fk_client = IntegerField("ID du client", validators=[InputRequired("Valeur obligatoire")])
+    intitule_type = StringField("Type", validators=[InputRequired("Valeur obligatoire")])
+    submit = SubmitField("Enregistrer le bien")  # Mettez à jour le nom du bouton de soumission
+
+class FormWTFUpdateBiens(FlaskForm):
+    """
+    Dans le formulaire "genre_update_wtf.html" on impose que le champ soit rempli.
+    Définition d'un "bouton" submit avec un libellé personnalisé.
+    """
+
     nom_genre_regexp = "^[A-Za-z0-9\-]+$"
-    nom_genre_wtf = StringField("Description du bien", validators=[Length(min=2, max=20, message="min 2 max 20"),
+
+    intitule_type_update_wtf = StringField("Type", validators=[InputRequired("Champ obligatoire")])
+    date_ins_type_wtf = StringField("Date d'insertion", validators=[Length(min=2, max=20, message="min 2 max 20"),
                                                                Regexp(nom_genre_regexp,
                                                                       message="Pas de chiffres, de caractères "
                                                                               "spéciaux, "
                                                                               "d'espace à double, de double "
                                                                               "apostrophe, de double trait union")
                                                                ])
-    nb_piece = DecimalField("Nombre de pièces", validators=[InputRequired("Valeur obligatoire")])
-    prix = StringField("Prix", validators=[InputRequired("Valeur obligatoire")])
-    submit = SubmitField("Enregistrer le bien")
+    submit = SubmitField("Update genre")
 
-class FormWTFUpdateGenre(FlaskForm):
-    """
-        Dans le formulaire "genre_update_wtf.html" on impose que le champ soit rempli.
-        Définition d'un "bouton" submit avec un libellé personnalisé.
-    """
-    nom_genre_update_regexp = "^[A-Za-z0-9\-]+$"
-    nom_genre_wtf = StringField("Description du bien", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                                   Regexp(nom_genre_update_regexp,
-                                                                          message="Pas de chiffres, de caractères "
-                                                                                  "spéciaux, "
-                                                                                  "d'espace à double, de double "
-                                                                                  "apostrophe, de double trait union")
-                                                                   ])
-    fk_client = IntegerField("ID du client", validators=[InputRequired("Valeur obligatoire")])
-    nb_piece = IntegerField("Nombre de pièces", validators=[InputRequired("Valeur obligatoire")])
-    prix = DecimalField("Prix", validators=[InputRequired("Valeur obligatoire")])
-    submit = SubmitField("Update bien")
+
+
+
 
 
 class FormWTFDeleteGenre(FlaskForm):

@@ -32,11 +32,12 @@ def films_genres_afficher(id_film_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_films_afficher_data = """SELECT id_film, nom_film, duree_film, description_film, cover_link_film, date_sortie_film,
-                                                            GROUP_CONCAT(intitule_genre) as GenresFilms FROM t_genre_film
-                                                            RIGHT JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                                            LEFT JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                                            GROUP BY id_film"""
+                strsql_genres_films_afficher_data = """SELECT t_biens.id_biens, t_biens.description_bien, t_biens.fk_client, t_type.intitule_type, 
+       GROUP_CONCAT(t_type.date_ins_type) as TypeBiens
+FROM t_biens
+LEFT JOIN t_type_bien ON t_biens.id_biens = t_type_bien.fk_bien
+LEFT JOIN t_type ON t_type.id_type = t_type_bien.fk_type
+GROUP BY t_biens.id_biens, t_biens.description_bien, t_type.intitule_type"""
                 if id_film_sel == 0:
                     # le paramètre 0 permet d'afficher tous les films
                     # Sinon le paramètre représente la valeur de l'id du film
@@ -46,7 +47,7 @@ def films_genres_afficher(id_film_sel):
                     valeur_id_film_selected_dictionnaire = {"value_id_film_selected": id_film_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
-                    strsql_genres_films_afficher_data += """ HAVING id_film= %(value_id_film_selected)s"""
+                    strsql_genres_films_afficher_data += """HAVING id_biens = %(value_id_film_selected)s"""
 
                     mc_afficher.execute(strsql_genres_films_afficher_data, valeur_id_film_selected_dictionnaire)
 
@@ -56,12 +57,12 @@ def films_genres_afficher(id_film_sel):
 
                 # Différencier les messages.
                 if not data_genres_films_afficher and id_film_sel == 0:
-                    flash("""La table "t_film" est vide. !""", "warning")
+                    flash("""La table "t_type" est vide. !""", "warning")
                 elif not data_genres_films_afficher and id_film_sel > 0:
                     # Si l'utilisateur change l'id_film dans l'URL et qu'il ne correspond à aucun film
-                    flash(f"Le film {id_film_sel} demandé n'existe pas !!", "warning")
+                    flash(f"Le type {id_film_sel} demandé n'existe pas !!", "warning")
                 else:
-                    flash(f"Données films et genres affichés !!", "success")
+                    flash(f"Données types et biens affichés !!", "success")
 
         except Exception as Exception_films_genres_afficher:
             raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {films_genres_afficher.__name__} ;"
@@ -70,6 +71,8 @@ def films_genres_afficher(id_film_sel):
     print("films_genres_afficher  ", data_genres_films_afficher)
     # Envoie la page "HTML" au serveur.
     return render_template("films_genres/films_genres_afficher.html", data=data_genres_films_afficher)
+
+
 
 
 """
@@ -93,7 +96,7 @@ def edit_genre_film_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_afficher = """SELECT id_genre, intitule_genre FROM t_genre ORDER BY id_genre ASC"""
+                strsql_genres_afficher = """SELECT id_type, intitule_type FROM t_type ORDER BY id_genre ASC"""
                 mc_afficher.execute(strsql_genres_afficher)
             data_genres_all = mc_afficher.fetchall()
             print("dans edit_genre_film_selected ---> data_genres_all", data_genres_all)

@@ -55,20 +55,20 @@ CREATE TABLE IF NOT EXISTS `t_adresses` (
 
 DROP TABLE IF EXISTS `t_biens`;
 CREATE TABLE IF NOT EXISTS `t_biens` (
-  `id_biens` int NOT NULL AUTO_INCREMENT,
-  `fk_client` int NOT NULL,
-  `description_bien` varchar(700) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `id_type` int NOT NULL AUTO_INCREMENT,
+  `intitule_type` int NOT NULL,
+  `date_ins_type` varchar(700) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `nb_piece` decimal(1,0) DEFAULT NULL,
   `prix` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_biens`),
-  KEY `fk_client_idx` (`fk_client`)
+  PRIMARY KEY (`id_type`),
+  KEY `intitule_type_idx` (`intitule_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `t_biens`
 --
 
-INSERT INTO `t_biens` (`id_biens`, `fk_client`, `description_bien`, `nb_piece`, `prix`) VALUES
+INSERT INTO `t_biens` (`id_type`, `intitule_type`, `date_ins_type`, `nb_piece`, `prix`) VALUES
 (149, 12, 'Superbe villa moderne située dans un quartier résidentiel calme. Cette propriété spacieuse comprend 5 chambres à coucher, un grand salon lumineux, une cuisine entièrement équipée, une piscine privée et une vue imprenable sur la mer. Idéal pour les familles en quête de tranquillité et de confort.', '5', '750000'),
 (150, 26, 'Magnifique appartement de luxe en plein centre-ville. Offrant un espace de vie élégant et raffiné, cet appartement dispose de 3 chambres spacieuses, d\'une cuisine moderne entièrement équipée, d\'un balcon avec vue panoramique et d\'une salle de sport privée. Profitez d\'un style de vie haut de gamme avec toutes les commodités à votre porte.', '3', '550000'),
 (151, 30, 'Charmante maison de campagne avec un grand jardin verdoyant. Cette propriété rustique offre 4 chambres confortables, un salon chaleureux avec cheminée, une cuisine traditionnelle et une terrasse couverte idéale pour les repas en plein air. Parfait pour les amoureux de la nature et les escapades relaxantes.', '4', '380000'),
@@ -115,10 +115,10 @@ INSERT INTO `t_biens` (`id_biens`, `fk_client`, `description_bien`, `nb_piece`, 
 
 DROP TABLE IF EXISTS `t_biens_adresse`;
 CREATE TABLE IF NOT EXISTS `t_biens_adresse` (
-  `id_biens_adresse` int NOT NULL AUTO_INCREMENT,
+  `id_type_adresse` int NOT NULL AUTO_INCREMENT,
   `fk_biens` int DEFAULT NULL,
   `fk_adresses` int DEFAULT NULL,
-  PRIMARY KEY (`id_biens_adresse`),
+  PRIMARY KEY (`id_type_adresse`),
   KEY `fk_biens_idx` (`fk_biens`),
   KEY `fk_adresse_idx` (`fk_adresses`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -199,9 +199,9 @@ CREATE TABLE IF NOT EXISTS `t_contact` (
   `id_contact` int NOT NULL AUTO_INCREMENT,
   `email` varchar(45) DEFAULT NULL,
   `telephone` varchar(45) DEFAULT NULL,
-  `fk_client` int DEFAULT NULL,
+  `intitule_type` int DEFAULT NULL,
   PRIMARY KEY (`id_contact`),
-  KEY `fk_client_idx` (`fk_client`)
+  KEY `intitule_type_idx` (`intitule_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
@@ -212,20 +212,20 @@ CREATE TABLE IF NOT EXISTS `t_contact` (
 -- Contraintes pour la table `t_biens`
 --
 ALTER TABLE `t_biens`
-  ADD CONSTRAINT `fk_client_biens` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`);
+  ADD CONSTRAINT `intitule_type_biens` FOREIGN KEY (`intitule_type`) REFERENCES `t_client` (`id_client`);
 
 --
 -- Contraintes pour la table `t_biens_adresse`
 --
 ALTER TABLE `t_biens_adresse`
   ADD CONSTRAINT `fk_adresse` FOREIGN KEY (`fk_adresses`) REFERENCES `t_adresses` (`id_adresses`),
-  ADD CONSTRAINT `fk_biens` FOREIGN KEY (`fk_biens`) REFERENCES `t_biens` (`id_biens`);
+  ADD CONSTRAINT `fk_biens` FOREIGN KEY (`fk_biens`) REFERENCES `t_biens` (`id_type`);
 
 --
 -- Contraintes pour la table `t_contact`
 --
 ALTER TABLE `t_contact`
-  ADD CONSTRAINT `fk_client` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`);
+  ADD CONSTRAINT `intitule_type` FOREIGN KEY (`intitule_type`) REFERENCES `t_client` (`id_client`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

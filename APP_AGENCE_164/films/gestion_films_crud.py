@@ -1,4 +1,5 @@
-"""Gestion des "routes" FLASK et des données pour les films.
+"""
+Gestion des "routes" FLASK et des données pour les films.
 Fichier : gestion_films_crud.py
 Auteur : OM 2022.04.11
 """
@@ -13,14 +14,14 @@ from APP_AGENCE_164.database.database_tools import DBconnection
 from APP_AGENCE_164.erreurs.exceptions import *
 from APP_AGENCE_164.films.gestion_films_wtf_forms import FormWTFUpdateFilm, FormWTFAddFilm, FormWTFDeleteFilm
 
-"""Ajouter un film grâce au formulaire "film_add_wtf.html"
+"""
+Ajouter un film grâce au formulaire "film_add_wtf.html"
 Auteur : OM 2022.04.11
 Définition d'une "route" /film_add
 
 Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "ADD" d'un "film"
 
 Paramètres : sans
-
 
 Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "films/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python dans le fichier ""
@@ -40,7 +41,7 @@ def film_add_wtf():
                 valeurs_insertion_dictionnaire = {"value_nom_film": nom_film_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_film = """INSERT INTO t_film (id_film,nom_film) VALUES (NULL,%(value_nom_film)s) """
+                strsql_insert_film = """INSERT INTO t_type (id_type, intitule_type) VALUES (NULL, %(value_nom_film)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_film, valeurs_insertion_dictionnaire)
 
@@ -56,6 +57,7 @@ def film_add_wtf():
                                             f"{Exception_genres_ajouter_wtf}")
 
     return render_template("films/film_add_wtf.html", form_add_film=form_add_film)
+
 
 
 """Editer(update) un film qui a été sélectionné dans le formulaire "films_genres_afficher.html"
@@ -101,12 +103,10 @@ def film_update_wtf():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_film = """UPDATE t_film SET nom_film = %(value_nom_film)s,
-                                                            duree_film = %(value_duree_film)s,
-                                                            description_film = %(value_description_film)s,
-                                                            cover_link_film = %(value_cover_link_film)s,
-                                                            date_sortie_film = %(value_datesortie_film)s
-                                                            WHERE id_film = %(value_id_film)s"""
+            str_sql_update_nom_film = """UPDATE t_type SET intitule_type = %(value_nom_film)s,
+                                                             dat_ins_type = %(value_datesortie_film)s
+                                                             WHERE id_type = %(value_id_film)s"""
+
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
 
@@ -188,8 +188,8 @@ def film_delete_wtf():
             valeur_delete_dictionnaire = {"value_id_film": id_film_delete}
             print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-            str_sql_delete_fk_film_genre = """DELETE FROM t_genre_film WHERE fk_film = %(value_id_film)s"""
-            str_sql_delete_film = """DELETE FROM t_film WHERE id_film = %(value_id_film)s"""
+            str_sql_delete_fk_film_genre = """DELETE FROM t_genre_film WHERE fk_film IN (SELECT id_type FROM t_type WHERE id_type = %(value_id_film)s)"""
+            str_sql_delete_film = """DELETE FROM t_type WHERE id_type = %(value_id_film)s"""
             # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_genre_film"
             # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
             with DBconnection() as mconn_bd:
