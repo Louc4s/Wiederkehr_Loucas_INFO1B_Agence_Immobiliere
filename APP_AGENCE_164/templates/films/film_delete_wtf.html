@@ -12,22 +12,22 @@
 				<thead>
 				<tr>
 					<th class="">
-						Id
+						Id du Bien
 					</th>
 					<th class="">
-						Nom
+						Fk client
 					</th>
 					<th class="">
-						Durée
+						Nom du bien
 					</th>
 					<th class="">
-						Date de sortie
+						Description du bien
 					</th>
 					<th class="">
-						Description
+						Nombre de pièce
 					</th>
 					<th class="">
-						Affiche
+						Prix
 					</th>
 				</tr>
 				</thead>
@@ -36,24 +36,22 @@
 				<tbody>
 				<tr>
 					<th class="align-middle">
-						{{ row.id_film }}
+						{{ row.id_biens }}
 					</th>
 					<th class="align-middle">
-						{{ row.nom_film }}
+						{{ row.fk_client }}
 					</th>
 					<th class="align-middle">
-						{{ row.duree_film|default("", True) }}
+						{{ row.nom_bien }}
 					</th>
 					<th class="align-middle">
-						{{ row.date_sortie_film|default("", True) }}
+						{{ row.description_bien }}
 					</th>
 					<th class="align-middle">
-						{{ row.description_film|default("", True) }}
+						{{ row.nb_piece }}
 					</th>
-					<th class="align-middle">
-						<img class="img" src={{ row.cover_link_film|default(None, True) }}
-							 style="border: 0;display:block; width:150px; max-height:auto;"
-							 alt="image masquée FFP8 (in COVID-19 Memory) (absente) mod 164">
+				<th class="align-middle">
+						{{ row.prix }}
 					</th>
 
 				<tr>

@@ -50,7 +50,7 @@ try:
     from APP_AGENCE_164.films import gestion_films_crud
     from APP_AGENCE_164.films import gestion_films_wtf_forms
 
-except Exception as Exception_init_app_films_164:
-    print(f"4567756434 Une erreur est survenue {type(Exception_init_app_films_164)} dans"
-          f"__init__ {Exception_init_app_films_164.args}")
+except Exception as Exception_init_APP_AGENCE_164:
+    print(f"4567756434 Une erreur est survenue {type(Exception_init_APP_AGENCE_164)} dans"
+          f"__init__ {Exception_init_APP_AGENCE_164.args}")
     sys.exit()

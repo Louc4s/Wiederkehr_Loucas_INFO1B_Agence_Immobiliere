@@ -41,7 +41,7 @@ def film_add_wtf():
                 valeurs_insertion_dictionnaire = {"value_nom_film": nom_film_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_film = """INSERT INTO t_type (id_type, intitule_type) VALUES (NULL, %(value_nom_film)s) """
+                strsql_insert_film = """INSERT INTO t_biens (nom_bien) VALUES (%(value_nom_film)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_film, valeurs_insertion_dictionnaire)
 
@@ -90,9 +90,10 @@ def film_update_wtf():
             # Récupèrer la valeur du champ depuis "genre_update_wtf.html" après avoir cliqué sur "SUBMIT".
             nom_film_update = form_update_film.nom_film_update_wtf.data
             duree_film_update = form_update_film.duree_film_update_wtf.data
+            datesortie_film_update = form_update_film.datesortie_film_update_wtf.data
             description_film_update = form_update_film.description_film_update_wtf.data
             cover_link_film_update = form_update_film.cover_link_film_update_wtf.data
-            datesortie_film_update = form_update_film.datesortie_film_update_wtf.data
+
 
             valeur_update_dictionnaire = {"value_id_film": id_film_update,
                                           "value_nom_film": nom_film_update,
@@ -103,9 +104,12 @@ def film_update_wtf():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_film = """UPDATE t_type SET intitule_type = %(value_nom_film)s,
-                                                             dat_ins_type = %(value_datesortie_film)s
-                                                             WHERE id_type = %(value_id_film)s"""
+            str_sql_update_nom_film = """UPDATE t_biens SET fk_client = %(value_nom_film)s,
+                                                            nom_bien = %(value_duree_film)s,
+                                                            description_bien = %(value_datesortie_film)s,
+                                                            nb_piece = %(value_description_film)s,
+                                                            prix = %(value_cover_link_film)s
+                                                            WHERE id_biens = %(value_id_film)s"""
 
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
@@ -118,23 +122,24 @@ def film_update_wtf():
             return redirect(url_for('films_genres_afficher', id_film_sel=id_film_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_film" et "intitule_genre" de la "t_genre"
-            str_sql_id_film = "SELECT * FROM t_film WHERE id_film = %(value_id_film)s"
+            str_sql_id_film = "SELECT * FROM t_biens WHERE id_biens = %(value_id_film)s"
             valeur_select_dictionnaire = {"value_id_film": id_film_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_film, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_film = mybd_conn.fetchone()
             print("data_film ", data_film, " type ", type(data_film), " genre ",
-                  data_film["nom_film"])
+                  data_film["fk_client"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "film_update_wtf.html"
-            form_update_film.nom_film_update_wtf.data = data_film["nom_film"]
-            form_update_film.duree_film_update_wtf.data = data_film["duree_film"]
+            form_update_film.nom_film_update_wtf.data = data_film["fk_client"]
+            form_update_film.duree_film_update_wtf.data = data_film["nom_bien"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
-            print(f" duree film  ", data_film["duree_film"], "  type ", type(data_film["duree_film"]))
-            form_update_film.description_film_update_wtf.data = data_film["description_film"]
-            form_update_film.cover_link_film_update_wtf.data = data_film["cover_link_film"]
-            form_update_film.datesortie_film_update_wtf.data = data_film["date_sortie_film"]
+            print(f" duree film  ", data_film["nom_bien"], "  type ", type(data_film["description_bien"]))
+            form_update_film.description_film_update_wtf.data = data_film["prix"]
+            form_update_film.cover_link_film_update_wtf.data = data_film["nb_piece"]
+            form_update_film.datesortie_film_update_wtf.data = data_film["description_bien"]
+
 
     except Exception as Exception_film_update_wtf:
         raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
@@ -188,8 +193,8 @@ def film_delete_wtf():
             valeur_delete_dictionnaire = {"value_id_film": id_film_delete}
             print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-            str_sql_delete_fk_film_genre = """DELETE FROM t_genre_film WHERE fk_film IN (SELECT id_type FROM t_type WHERE id_type = %(value_id_film)s)"""
-            str_sql_delete_film = """DELETE FROM t_type WHERE id_type = %(value_id_film)s"""
+            str_sql_delete_fk_film_genre = "DELETE FROM t_type_bien WHERE fk_bien = %(value_id_film)s"
+            str_sql_delete_film = "DELETE FROM t_biens WHERE id_biens = %(value_id_film)s"
             # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_genre_film"
             # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
             with DBconnection() as mconn_bd:
@@ -206,7 +211,7 @@ def film_delete_wtf():
             print(id_film_delete, type(id_film_delete))
 
             # Requête qui affiche le film qui doit être efffacé.
-            str_sql_genres_films_delete = """SELECT * FROM t_film WHERE id_film = %(value_id_film)s"""
+            str_sql_genres_films_delete = "SELECT * FROM t_biens WHERE id_biens = %(value_id_film)s"
 
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)

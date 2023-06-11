@@ -44,22 +44,22 @@
                     <thead>
                         <tr>
                             <th class="">
-                                id
+                                ID du Bien
                             </th>
                             <th class="">
-                                Titre
+                                ID du client
                             </th>
                             <th class="">
-                                Durée
+                                Nom du bien
                             </th>
                             <th class="">
-                                Date sortie
+                                Description du bien
                             </th>
                             <th class="">
-                                Description
+                                Nombre de pièces
                             </th>
                             <th class="">
-                                Affiche
+                                Prix
                             </th>
                         </tr>
                     </thead>
@@ -69,22 +69,22 @@
 				<tbody>
 					<tr>
 						<td class="align-middle">
-							{{ row.id_film }}
+							{{ row.id_biens }}
 						</td>
 						<td class="align-middle">
-							{{ row.nom_film }}
+							{{ row.fk_client }}
 						</td>
 						<td class="align-middle">
-							{{ row.duree_film|default("", True) }}
+							{{ row.nom_bien }}
 						</td>
 						<td class="align-middle">
-							{{ row.date_sortie_film|default("", True) }}
+							{{ row.description_bien}}
 						</td>
 						<td class="align-middle">
-							{{ row.description_film|default("", True) }}
+							{{ row.nb_piece }}
 						</td>
-						<td class="align-middle">
-                            <img class="img" src={{ row.cover_link_film|default(None, True) }} style="border: 0;display:block; width:150px; max-height:auto;" alt = "image masquée FFP67 (in COVID-29 Memory) (absente) mod 164">
+                        <td class="align-middle">
+							{{ row.prix }}
 						</td>
 					</tr>
 				</tbody>
@@ -112,11 +112,11 @@
                 <div class="qtagselect isw360">
                     <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
                         {% for row in data_genres_non_attribues %}
-                            <option value="{{ row.id_genre }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.intitule_genre }}</option>
+                            <option value="{{ row.id_type }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.intitule_type }}</option>
                         {% endfor %}
 
                         {% for row in data_genres_attribues %}
-                            <option value="{{ row.id_genre }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.intitule_genre }}</option>
+                            <option value="{{ row.id_type }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.intitule_type }}</option>
                         {% endfor %}
                     </select>
                 </div>

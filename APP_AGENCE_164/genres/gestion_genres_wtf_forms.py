@@ -11,7 +11,7 @@ from wtforms.validators import Regexp
 
 class FormWTFAjouterGenres(FlaskForm):
     intitule_type = StringField("Type", validators=[InputRequired("Valeur obligatoire")])
-    submit = SubmitField("Enregistrer le bien")  # Mettez à jour le nom du bouton de soumission
+    submit = SubmitField("Enregistrer type")  # Mettez à jour le nom du bouton de soumission
 
 class FormWTFUpdateBiens(FlaskForm):
     """
@@ -29,7 +29,7 @@ class FormWTFUpdateBiens(FlaskForm):
                                                                               "d'espace à double, de double "
                                                                               "apostrophe, de double trait union")
                                                                ])
-    submit = SubmitField("Update genre")
+    submit = SubmitField("Update type")
 
 
 
@@ -45,7 +45,7 @@ class FormWTFDeleteGenre(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer un "genre".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_genre".
     """
-    nom_genre_delete_wtf = StringField("Effacer ce genre")
-    submit_btn_del = SubmitField("Effacer genre")
+    nom_genre_delete_wtf = StringField("Effacer ce type")
+    submit_btn_del = SubmitField("Effacer type")
     submit_btn_conf_del = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

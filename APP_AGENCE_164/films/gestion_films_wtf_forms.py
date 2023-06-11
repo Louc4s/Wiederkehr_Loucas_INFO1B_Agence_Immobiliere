@@ -17,7 +17,7 @@ class FormWTFAddFilm(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     nom_film_regexp = ""
-    nom_film_add_wtf = StringField("Nom du film ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
+    nom_film_add_wtf = StringField("Nom du bien ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
                                                                Regexp(nom_film_regexp,
                                                                       message="Pas de chiffres, de caractères "
                                                                               "spéciaux, "
@@ -25,7 +25,7 @@ class FormWTFAddFilm(FlaskForm):
                                                                               "apostrophe, de double trait union")
                                                                ])
 
-    submit = SubmitField("Enregistrer film")
+    submit = SubmitField("Enregistrer bien")
 
 
 class FormWTFUpdateFilm(FlaskForm):
@@ -34,22 +34,12 @@ class FormWTFUpdateFilm(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
 
-    nom_film_update_wtf = StringField("Clavioter le titre", widget=TextArea())
-    duree_film_update_wtf = IntegerField("Durée du film (minutes)", validators=[NumberRange(min=1, max=5000,
-                                                                                            message=u"Min %(min)d et "
-                                                                                                    u"max %(max)d "
-                                                                                                    u"Selon Wikipédia "
-                                                                                                    u"L'Incendie du "
-                                                                                                    u"monastère du "
-                                                                                                    u"Lotus rouge "
-                                                                                                    u"durée 1620 "
-                                                                                                    u"min")])
-
-    description_film_update_wtf = StringField("Description du film ", widget=TextArea())
-    cover_link_film_update_wtf = StringField("Lien de l'affiche du film ", widget=TextArea())
-    datesortie_film_update_wtf = DateField("Date de sortie du film", validators=[InputRequired("Date obligatoire"),
-                                                                                 DataRequired("Date non valide")])
-    submit = SubmitField("Update film")
+    nom_film_update_wtf = StringField("ID du Client", widget=TextArea())
+    duree_film_update_wtf = StringField("Nom du bien", widget=TextArea())
+    datesortie_film_update_wtf = StringField("Description du bien", widget=TextArea())
+    description_film_update_wtf = StringField("Nom de pièces ", widget=TextArea())
+    cover_link_film_update_wtf = StringField("Prix du bien ", widget=TextArea())
+    submit = SubmitField("Update bien")
 
 
 class FormWTFDeleteFilm(FlaskForm):
