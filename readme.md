@@ -20,6 +20,7 @@ Pour utiliser mon appliaction sur l'Agence Immoblilière, suivez les étapes ci-
 8. Si nécéssaire, moddifer le mot de passe (PASS_MYSQL) ou le user (USER_MYSQL) dans le fichier .env selon votre configuration locale.
 
 ![img.png](img.png)
+
 9. Exécutez le fichier "1_ImportationDumpSql.py" qui se trouve dans le répertoire "APP_AGENCE_164/database".
 
 10. Exécutez le fichier "2_test_connection_bd.py" situé dans le répertoire "APP_AGENCE_164/database".
