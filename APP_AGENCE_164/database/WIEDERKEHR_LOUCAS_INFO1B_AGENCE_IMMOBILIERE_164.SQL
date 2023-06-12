@@ -1,19 +1,19 @@
-DROP DATABASE IF EXISTS MACCAUD_OLIVIER_INFO1X_FILMS_164_2023;
+DROP DATABASE IF EXISTS WIEDERKEHR_LOUCAS_INFO1B_AGENCE_IMMOBILIERE_164;
 
 -- Création d'un nouvelle base de donnée
 
-CREATE DATABASE IF NOT EXISTS MACCAUD_OLIVIER_INFO1X_FILMS_164_2023;
+CREATE DATABASE IF NOT EXISTS WIEDERKEHR_LOUCAS_INFO1B_AGENCE_IMMOBILIERE_164;
 
 -- Utilisation de cette base de donnée
 
-USE MACCAUD_OLIVIER_INFO1X_FILMS_164_2023;
+USE WIEDERKEHR_LOUCAS_INFO1B_AGENCE_IMMOBILIERE_164;
 
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 10 juin 2023 à 13:22
+-- Généré le : lun. 12 juin 2023 à 00:30
 -- Version du serveur : 8.0.33
 -- Version de PHP : 8.0.26
 
@@ -45,7 +45,47 @@ CREATE TABLE IF NOT EXISTS `t_adresses` (
   `ville` varchar(45) DEFAULT NULL,
   `pays` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_adresses`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `t_adresses`
+--
+
+INSERT INTO `t_adresses` (`id_adresses`, `rue`, `code_postal`, `ville`, `pays`) VALUES
+(1, '1st Street', 12345, 'New York', 'États-Unis'),
+(2, 'Main Street', 98765, 'Los Angeles', 'États-Unis'),
+(3, 'High Street', 54321, 'Londres', 'Royaume-Uni'),
+(4, 'Rue de la Paix', 75001, 'Paris', 'France'),
+(5, 'Alexanderplatz', 10178, 'Berlin', 'Allemagne'),
+(6, 'Rua Augusta', 1100, 'Lisbonne', 'Portugal'),
+(7, 'Gran Vía', 28013, 'Madrid', 'Espagne'),
+(8, 'Princes Street', 0, 'Édimbourg', 'Royaume-Uni'),
+(9, 'Piazza del Duomo', 20121, 'Milan', 'Italie'),
+(10, 'Nyhavn', 1051, 'Copenhague', 'Danemark'),
+(11, 'Plaza de Mayo', 1084, 'Buenos Aires', 'Argentine'),
+(12, 'Rodeo Drive', 90210, 'Beverly Hills', 'États-Unis'),
+(13, 'Ginza', 1040061, 'Tokyo', 'Japon'),
+(14, 'O\'Connell Street', 0, 'Dublin', 'Irlande'),
+(15, 'Nevsky Prospekt', 191186, 'Saint-Pétersbourg', 'Russie'),
+(16, 'Orchard Road', 238824, 'Singapour', 'Singapour'),
+(17, 'La Rambla', 8002, 'Barcelone', 'Espagne'),
+(18, 'Kremlin Embankment', 103073, 'Moscou', 'Russie'),
+(19, 'Broadway', 10003, 'New York', 'États-Unis'),
+(20, 'Paseo de la Reforma', 6500, 'Mexico', 'Mexique'),
+(21, 'Champs-Élysées', 75008, 'Paris', 'France'),
+(22, 'Viale dei Fori Imperiali', 186, 'Rome', 'Italie'),
+(23, 'Trafalgar Square', 0, 'Londres', 'Royaume-Uni'),
+(24, 'Rue Sainte-Catherine', 0, 'Montréal', 'Canada'),
+(25, 'Calle Florida', 1005, 'Buenos Aires', 'Argentine'),
+(26, 'Nanluoguxiang', 100009, 'Pékin', 'Chine'),
+(27, 'Kurfürstendamm', 10707, 'Berlin', 'Allemagne'),
+(28, 'Myeong-dong', 4537, 'Séoul', 'Corée du Sud'),
+(29, 'Oxford Street', 0, 'Londres', 'Royaume-Uni'),
+(30, 'Nathan Road', 0, 'Kowloon', 'Hong Kong'),
+(31, 'Avenue des Champs-Élysées', 75008, 'Paris', 'France'),
+(32, 'Vaci Utca', 1056, 'Budapest', 'Hongrie'),
+(33, 'Rodeo Drive', 90210, 'Los Angeles', 'États-Unis'),
+(34, 'Rua de Santa Catarina', 4000447, 'Porto', 'Portugal');
 
 -- --------------------------------------------------------
 
@@ -55,57 +95,61 @@ CREATE TABLE IF NOT EXISTS `t_adresses` (
 
 DROP TABLE IF EXISTS `t_biens`;
 CREATE TABLE IF NOT EXISTS `t_biens` (
-  `id_type` int NOT NULL AUTO_INCREMENT,
-  `intitule_type` int NOT NULL,
-  `date_ins_type` varchar(700) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `nb_piece` decimal(1,0) DEFAULT NULL,
-  `prix` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_type`),
-  KEY `intitule_type_idx` (`intitule_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb3;
+  `id_biens` int NOT NULL AUTO_INCREMENT,
+  `fk_client` int DEFAULT NULL,
+  `nom_bien` varchar(55) NOT NULL,
+  `description_bien` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `nb_piece` int DEFAULT NULL,
+  `prix` int DEFAULT NULL,
+  PRIMARY KEY (`id_biens`),
+  KEY `fk_client_idx` (`fk_client`)
+) ENGINE=InnoDB AUTO_INCREMENT=238 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `t_biens`
 --
 
-INSERT INTO `t_biens` (`id_type`, `intitule_type`, `date_ins_type`, `nb_piece`, `prix`) VALUES
-(149, 12, 'Superbe villa moderne située dans un quartier résidentiel calme. Cette propriété spacieuse comprend 5 chambres à coucher, un grand salon lumineux, une cuisine entièrement équipée, une piscine privée et une vue imprenable sur la mer. Idéal pour les familles en quête de tranquillité et de confort.', '5', '750000'),
-(150, 26, 'Magnifique appartement de luxe en plein centre-ville. Offrant un espace de vie élégant et raffiné, cet appartement dispose de 3 chambres spacieuses, d\'une cuisine moderne entièrement équipée, d\'un balcon avec vue panoramique et d\'une salle de sport privée. Profitez d\'un style de vie haut de gamme avec toutes les commodités à votre porte.', '3', '550000'),
-(151, 30, 'Charmante maison de campagne avec un grand jardin verdoyant. Cette propriété rustique offre 4 chambres confortables, un salon chaleureux avec cheminée, une cuisine traditionnelle et une terrasse couverte idéale pour les repas en plein air. Parfait pour les amoureux de la nature et les escapades relaxantes.', '4', '380000'),
-(152, 7, 'Appartement moderne avec vue sur la ville. Ce spacieux appartement de 2 chambres comprend une cuisine ouverte entièrement équipée, un salon lumineux, une salle à manger élégante et une terrasse privée. Bénéficiez d\'un emplacement central pratique et profitez de tous les services à proximité.', '2', '320000'),
-(153, 6, 'Superbe loft rénové avec un design contemporain. Ce loft de 1 chambre offre un espace de vie ouvert, une cuisine moderne entièrement équipée, des finitions haut de gamme et une abondance de lumière naturelle. Profitez de l\'ambiance urbaine dynamique et de la proximité des restaurants et des boutiques.', '1', '280000'),
-(154, 17, 'Villa de luxe avec vue panoramique sur la mer. Cette somptueuse propriété de 6 chambres présente une architecture moderne, des espaces de vie spacieux, une cuisine haut de gamme, une piscine à débordement et de vastes terrasses. Profitez d\'un style de vie exclusif dans un cadre idyllique.', '6', '980000'),
-(155, 29, 'Appartement contemporain en plein cœur du quartier animé. Ce spacieux appartement de 3 chambres offre des finitions de haute qualité, un salon lumineux, une cuisine moderne entièrement équipée et une terrasse privée pour profiter de la vue sur la ville. Vivez l\'effervescence de la vie urbaine avec style.', '3', '420000'),
-(156, 44, 'Charmante maison de plage avec accès direct à la mer. Cette propriété de 4 chambres offre un style côtier décontracté, un salon lumineux, une cuisine équipée et une terrasse privée pour profiter des vues sur l\'océan. Vivez votre rêve de vivre près de la plage dans cette maison idyllique.', '4', '580000'),
-(157, 35, 'Appartement en plein cœur du quartier historique. Cet appartement de 2 chambres présente des éléments architecturaux d\'époque, une cuisine ouverte, un salon confortable et une atmosphère charmante. Profitez de la proximité des sites touristiques, des boutiques et des restaurants.', '2', '260000'),
-(158, 33, 'Superbe propriété avec vue sur le lac et les montagnes. Cette villa de 6 chambres offre un design contemporain, des espaces de vie élégants, une cuisine haut de gamme, une piscine à débordement et une terrasse panoramique. Profitez d\'une vie luxueuse dans un cadre naturel époustouflant.', '6', '1200000'),
-(159, 11, 'Appartement spacieux avec jardin privé. Cet appartement de 3 chambres comprend un salon lumineux, une cuisine moderne, une salle à manger séparée et un jardin verdoyant pour se détendre. Profitez de l\'intimité et du confort de cette résidence moderne.', '3', '410000'),
-(160, 20, 'Maison de village pittoresque avec un charme traditionnel. Cette propriété de 2 chambres offre un salon confortable, une cuisine rustique, une cour intérieure et une terrasse avec vue sur le village. Plongez dans l\'ambiance rustique d\'un village traditionnel français.', '2', '280000'),
-(161, 15, 'Spacieuse villa contemporaine avec piscine privée. Cette propriété de 4 chambres offre un design moderne, des espaces de vie ouverts, une cuisine haut de gamme, un jardin paysager et une piscine à débordement. Profitez d\'un style de vie luxueux dans un environnement tranquille.', '4', '890000'),
-(162, 28, 'Appartement élégant dans un quartier résidentiel exclusif. Cet appartement de 2 chambres offre des finitions de haute qualité, un salon spacieux, une cuisine moderne et une terrasse privée avec vue sur les jardins paysagers. Profitez du luxe et du confort dans ce quartier prisé.', '2', '360000'),
-(163, 23, 'Charmante maison de campagne avec jardin privé. Cette propriété rustique offre 3 chambres confortables, un salon chaleureux avec cheminée, une cuisine traditionnelle et une terrasse ombragée pour profiter de la tranquillité de la campagne. Parfait pour une escapade relaxante.', '3', '320000'),
-(164, 18, 'Appartement lumineux avec vue imprenable sur la mer. Ce spacieux appartement de 2 chambres comprend un salon ouvert, une cuisine moderne, une salle à manger séparée et un balcon pour admirer les vues panoramiques. Profitez de la proximité de la plage et des commodités.', '2', '420000'),
-(165, 9, 'Villa de luxe avec vue sur le golf. Cette somptueuse propriété de 5 chambres présente une architecture moderne, des espaces de vie spacieux, une cuisine haut de gamme, une piscine privée et un jardin paysager. Profitez d\'une vie de luxe dans un environnement serein.', '5', '1100000'),
-(166, 13, 'Appartement moderne en plein cœur de la ville. Ce spacieux appartement de 3 chambres offre un design contemporain, un salon lumineux, une cuisine entièrement équipée et une terrasse privée. Profitez de la proximité des commerces, des restaurants et des transports en commun.', '3', '380000'),
-(167, 21, 'Belle maison de caractère avec jardin paysager. Cette propriété de 4 chambres offre un intérieur élégant, un salon spacieux avec cheminée, une cuisine traditionnelle et une terrasse ombragée pour se détendre. Profitez de l\'ambiance charmante d\'une maison traditionnelle française.', '4', '480000'),
-(168, 31, 'Appartement moderne avec vue sur la mer. Cet appartement de 2 chambres offre un intérieur élégant, un salon lumineux, une cuisine entièrement équipée et un balcon pour profiter des vues panoramiques sur la mer. Profitez de l\'emplacement privilégié à proximité de la plage et des commodités.', '2', '450000'),
-(169, 37, 'Magnifique villa contemporaine avec vue sur l\'océan. Cette propriété de 5 chambres offre des espaces de vie spacieux, une cuisine haut de gamme, une piscine à débordement et une terrasse panoramique. Profitez d\'un style de vie luxueux dans un cadre côtier spectaculaire.', '5', '1300000'),
-(170, 16, 'Appartement élégant dans une résidence de standing. Cet appartement de 3 chambres offre des finitions haut de gamme, un salon spacieux, une cuisine moderne entièrement équipée et une terrasse privée pour profiter de la vue sur le jardin. Profitez d\'un confort absolu dans cet environnement exclusif.', '3', '480000'),
-(171, 10, 'Maison de charme avec jardin et piscine. Cette propriété de 4 chambres offre un cadre paisible, un salon spacieux avec cheminée, une cuisine traditionnelle et une terrasse couverte pour se détendre. Profitez d\'un véritable havre de paix à proximité de toutes les commodités.', '4', '620000'),
-(172, 24, 'Appartement moderne avec vue sur la ville. Cet appartement de 2 chambres présente un design contemporain, un salon lumineux, une cuisine entièrement équipée et un balcon pour profiter des vues panoramiques. Profitez de l\'emplacement central et de toutes les commodités à votre porte.', '2', '390000'),
-(173, 22, 'Villa de luxe avec vue sur la mer. Cette somptueuse propriété de 5 chambres offre un design contemporain, des espaces de vie spacieux, une cuisine haut de gamme, une piscine à débordement et une terrasse panoramique. Profitez d\'une vie de luxe dans un cadre idyllique.', '5', '1150000'),
-(174, 14, 'Appartement spacieux et lumineux en plein cœur de la ville. Cet appartement de 3 chambres offre un espace de vie ouvert, une cuisine moderne entièrement équipée, une salle à manger séparée et une terrasse privée. Profitez de la vie urbaine avec style et confort.', '3', '450000'),
-(175, 27, 'Charmante maison de campagne avec jardin privé. Cette propriété rustique offre 4 chambres confortables, un salon chaleureux avec cheminée, une cuisine traditionnelle et une terrasse couverte pour profiter de la tranquillité de la nature. Parfait pour une évasion rurale.', '4', '380000'),
-(176, 19, 'Appartement moderne avec vue sur le lac. Cet appartement de 2 chambres offre des finitions de haute qualité, un salon lumineux, une cuisine entièrement équipée et un balcon pour profiter de la vue panoramique sur le lac. Profitez de la proximité des activités nautiques et des paysages pittoresques.', '2', '420000'),
-(177, 34, 'Superbe villa contemporaine avec piscine privée. Cette propriété de 6 chambres offre un design moderne, des espaces de vie spacieux, une cuisine haut de gamme, un jardin paysager et une piscine à débordement. Profitez d\'un style de vie luxueux dans un environnement paisible.', '6', '990000'),
-(178, 38, 'Appartement lumineux en plein cœur du quartier historique. Cet appartement de 2 chambres présente des éléments d\'époque, un salon spacieux, une cuisine entièrement équipée et une vue imprenable sur les monuments historiques. Profitez de l\'ambiance charmante de cette résidence historique.', '2', '360000'),
-(179, 36, 'Belle maison de campagne avec jardin paysager. Cette propriété de 3 chambres offre un intérieur élégant, un salon chaleureux avec cheminée, une cuisine traditionnelle et une terrasse ombragée pour profiter de la tranquillité de la nature. Profitez d\'une escapade relaxante dans un environnement pittoresque.', '3', '440000'),
-(180, 39, 'Appartement moderne avec vue sur la mer. Cet appartement de 2 chambres offre un espace de vie ouvert, une cuisine entièrement équipée, une salle à manger séparée et un balcon privé. Profitez de la vie côtière avec style et confort.', '2', '410000'),
-(181, 41, 'Villa de luxe avec vue sur le lac. Cette somptueuse propriété de 5 chambres offre un design contemporain, des espaces de vie spacieux, une cuisine haut de gamme, une piscine à débordement et une terrasse panoramique. Profitez d\'une vie de luxe dans un cadre idyllique.', '5', '1250000'),
-(182, 40, 'Appartement spacieux et lumineux en plein cœur de la ville. Cet appartement de 3 chambres offre un espace de vie ouvert, une cuisine moderne entièrement équipée, une salle à manger séparée et une terrasse privée. Profitez de la vie urbaine avec style et confort.', '3', '460000'),
-(183, 42, 'Charmante maison de campagne avec jardin privé. Cette propriété rustique offre 4 chambres confortables, un salon chaleureux avec cheminée, une cuisine traditionnelle et une terrasse couverte pour profiter de la tranquillité de la nature. Parfait pour une évasion rurale.', '4', '400000'),
-(184, 43, 'Appartement moderne avec vue sur le lac. Cet appartement de 2 chambres offre des finitions de haute qualité, un salon lumineux, une cuisine entièrement équipée et un balcon pour profiter de la vue panoramique sur le lac. Profitez de la proximité des activités nautiques et des paysages pittoresques.', '2', '440000'),
-(185, 44, 'Superbe villa contemporaine avec piscine privée. Cette propriété de 6 chambres offre un design moderne, des espaces de vie spacieux, une cuisine haut de gamme, un jardin paysager et une piscine à débordement. Profitez d\'un style de vie luxueux dans un environnement paisible.', '6', '950000');
+INSERT INTO `t_biens` (`id_biens`, `fk_client`, `nom_bien`, `description_bien`, `nb_piece`, `prix`) VALUES
+(198, 1, 'Appartement moderne avec balcon', 'Appartement moderne avec balcon offrant une vue dégagée sur la ville. Il se compose de 2 chambres, un séjour lumineux, une cuisine équipée et un garage.', 3, 230000),
+(199, 2, 'Maison de campagne avec jardin', 'Maison de campagne avec jardin et terrasse. Elle dispose de 4 chambres, un salon avec cheminée, une cuisine équipée, un terrain arboré et un abri de jardin.', 5, 340000),
+(200, 3, 'Appartement en plein centre-ville', 'Appartement spacieux en plein centre-ville. Il comprend 3 chambres, un grand séjour, une cuisine équipée et un balcon avec vue sur la place principale.', 4, 280000),
+(201, 4, 'Villa avec piscine et vue panoramique', 'Magnifique villa avec piscine et vue panoramique sur la mer. Elle offre 5 chambres, un vaste séjour, une cuisine équipée, un jardin paysager et un garage.', 6, 680000),
+(202, 5, 'Appartement avec terrasse ensoleillée', 'Appartement avec terrasse ensoleillée toute la journée. Il se compose de 2 chambres, un séjour lumineux, une cuisine ouverte et un garage. Proche des commerces et des transports.', 2, 210000),
+(203, 6, 'Maison de charme rénovée', 'Maison de charme entièrement rénovée avec des matériaux de qualité. Elle dispose de 3 chambres, un salon avec poutres apparentes, une cuisine équipée et un jardin fleuri.', 4, 320000),
+(204, 7, 'Appartement avec vue sur le parc', 'Appartement avec vue sur un parc verdoyant. Il comprend 3 chambres, un séjour lumineux, une cuisine équipée et un balcon. Proche des écoles et des commerces.', 3, 230000),
+(205, 8, 'Villa provençale avec piscine', 'Villa provençale avec piscine et jardin paysager. Elle dispose de 4 chambres, un séjour avec cheminée, une cuisine ouverte et un garage.', 5, 450000),
+(206, 9, 'Appartement en rez-de-chaussée avec jardin', 'Appartement en rez-de-chaussée avec jardin privatif. Il se compose de 2 chambres, un séjour, une cuisine équipée et un garage. Proche des transports en commun et des commerces.', 2, 200000),
+(207, 10, 'Maison avec piscine chauffée', 'Belle maison avec piscine chauffée et pool house. Elle offre 5 chambres, un vaste séjour, une cuisine équipée, un jardin arboré et un garage.', 6, 580000),
+(208, 11, 'Appartement avec vue sur le canal', 'Appartement avec vue sur le canal et les bateaux. Il comprend 2 chambres, un séjour lumineux, une cuisine équipée et un balcon. Emplacement idéal pour les amoureux de la navigation.', 2, 195000),
+(209, 12, 'Maison contemporaine avec piscine', 'Maison contemporaine avec piscine et jardin paysager. Elle dispose de 4 chambres, un séjour spacieux, une cuisine ouverte et un garage.', 5, 520000),
+(210, 13, 'Appartement en duplex avec terrasse', 'Appartement en duplex avec grande terrasse. Il se compose de 3 chambres, un séjour lumineux, une cuisine équipée et un garage. Proche des commerces et des transports.', 3, 280000),
+(211, 14, 'Villa avec vue imprenable sur la mer', 'Villa avec vue imprenable sur la mer Méditerranée. Elle offre 5 chambres, un salon spacieux, une cuisine équipée, un jardin paysager et un garage.', 6, 750000),
+(212, 15, 'Appartement avec balcon dans résidence sécurisée', 'Appartement avec balcon dans une résidence sécurisée. Il comprend 2 chambres, un séjour, une cuisine équipée et un garage. Proche des écoles et des commerces.', 2, 215000),
+(213, 16, 'Maison de caractère avec jardin', 'Maison de caractère avec jardin arboré. Elle dispose de 3 chambres, un salon avec cheminée, une cuisine équipée, un terrain paysager et un garage.', 4, 330000),
+(214, 17, 'Appartement lumineux en plein centre-ville', 'Appartement lumineux en plein centre-ville avec vue dégagée. Il se compose de 3 chambres, un séjour spacieux, une cuisine équipée et un balcon.', 4, 290000),
+(215, 18, 'Villa contemporaine avec piscine', 'Villa contemporaine avec piscine et jardin paysager. Elle dispose de 4 chambres, un séjour avec baies vitrées, une cuisine ouverte et un garage.', 5, 480000),
+(216, 19, 'Appartement avec terrasse et vue mer', 'Appartement avec terrasse et vue panoramique sur la mer. Il comprend 2 chambres, un séjour lumineux, une cuisine équipée et un garage. Proche de la plage.', 2, 225000),
+(217, 20, 'Maison de plain-pied avec jardin', 'Maison de plain-pied avec jardin clos. Elle offre 3 chambres, un séjour, une cuisine équipée, une terrasse et un garage. Proche des commodités.', 4, 280000),
+(218, 21, 'Appartement en rez-de-jardin avec piscine', 'Appartement en rez-de-jardin avec accès à une piscine commune. Il se compose de 2 chambres, un séjour, une cuisine équipée et un garage. Proche des transports en commun.', 2, 210000),
+(219, 22, 'Maison avec jardin et vue sur la montagne', 'Maison avec jardin et vue panoramique sur la montagne. Elle dispose de 4 chambres, un séjour spacieux, une cuisine équipée, un terrain arboré et un garage.', 5, 360000),
+(220, 23, 'Appartement avec vue sur le lac', 'Appartement avec vue sur un lac paisible. Il comprend 3 chambres, un séjour lumineux, une cuisine équipée et un balcon. Proche des écoles et des commerces.', 3, 245000),
+(221, 24, 'Villa provençale avec piscine et vue mer', 'Villa provençale avec piscine, jardin paysager et vue imprenable sur la mer. Elle offre 5 chambres, un salon spacieux, une cuisine équipée et un garage.', 6, 680000),
+(222, 25, 'Appartement rénové avec terrasse', 'Appartement rénové avec terrasse offrant une belle vue. Il se compose de 2 chambres, un séjour lumineux, une cuisine ouverte et un garage. Proche des transports et des commerces.', 2, 220000),
+(223, 26, 'Maison de ville avec cour intérieure', 'Maison de ville avec cour intérieure et jardin arboré. Elle dispose de 3 chambres, un salon, une cuisine équipée et un garage. Proche des commodités.', 4, 315000),
+(224, 27, 'Appartement avec vue sur les jardins', 'Appartement avec vue sur de beaux jardins paysagers. Il comprend 3 chambres, un séjour lumineux, une cuisine équipée et un balcon. Proche des parcs et des transports.', 3, 235000),
+(225, 28, 'Villa contemporaine avec piscine et jardin', 'Villa contemporaine avec piscine et grand jardin paysager. Elle dispose de 4 chambres, un séjour spacieux, une cuisine ouverte et un garage.', 5, 495000),
+(226, 29, 'Appartement en plein centre historique', 'Appartement situé en plein centre historique. Il se compose de 2 chambres, un séjour, une cuisine équipée et un balcon. Proche des monuments et des commerces.', 2, 230000),
+(227, 30, 'Maison avec piscine et vue dégagée', 'Belle maison avec piscine et vue dégagée sur la campagne. Elle offre 5 chambres, un vaste séjour, une cuisine équipée, un jardin arboré et un garage.', 6, 620000),
+(228, 31, 'Appartement avec balcon dans résidence de standing', 'Appartement avec balcon dans une résidence de standing. Il comprend 2 chambres, un séjour, une cuisine équipée et un garage. Proche des écoles et des commerces.', 2, 205000),
+(229, 32, 'Maison de caractère avec jardin et piscine', 'Maison de caractère avec jardin paysager et piscine. Elle dispose de 4 chambres, un salon avec cheminée, une cuisine équipée et un garage.', 5, 420000),
+(230, 33, 'Appartement lumineux avec vue sur la rivière', 'Appartement lumineux avec vue sur une rivière paisible. Il se compose de 3 chambres, un séjour spacieux, une cuisine équipée et un balcon. Proche des écoles et des commerces.', 3, 275000),
+(231, 34, 'Villa contemporaine avec piscine et vue panoramique', 'Villa contemporaine avec piscine, jardin paysager et vue panoramique. Elle offre 5 chambres, un salon spacieux, une cuisine équipée et un garage.', 6, 780000),
+(232, 35, 'Appartement avec terrasse ensoleillée', 'Appartement avec terrasse ensoleillée toute la journée. Il comprend 2 chambres, un séjour lumineux, une cuisine équipée et un garage. Proche des commerces et des transports.', 2, 210000),
+(233, 36, 'Maison rénovée avec jardin clos', 'Maison entièrement rénovée avec jardin clos. Elle dispose de 3 chambres, un salon avec poutres apparentes, une cuisine équipée et un garage.', 4, 335000),
+(234, 37, 'Appartement avec vue sur le parc', 'Appartement avec vue sur un parc verdoyant. Il comprend 3 chambres, un séjour lumineux, une cuisine équipée et un balcon. Proche des écoles et des commerces.', 3, 230000),
+(235, 38, 'Villa provençale avec piscine', 'Villa provençale avec piscine et jardin paysager. Elle dispose de 4 chambres, un séjour avec cheminée, une cuisine ouverte et un garage.', 5, 450000),
+(236, 39, 'Appartement en rez-de-chaussée avec jardin', 'Appartement en rez-de-chaussée avec jardin privatif. Il se compose de 2 chambres, un séjour, une cuisine équipée et un garage. Proche des transports en commun et des commerces.', 2, 200000),
+(237, 40, 'Maison avec piscine chauffée', 'Belle maison avec piscine chauffée et pool house. Elle offre 5 chambres, un vaste séjour, une cuisine équipée, un jardin arboré et un garage.', 6, 580000);
 
 -- --------------------------------------------------------
 
@@ -115,13 +159,13 @@ INSERT INTO `t_biens` (`id_type`, `intitule_type`, `date_ins_type`, `nb_piece`, 
 
 DROP TABLE IF EXISTS `t_biens_adresse`;
 CREATE TABLE IF NOT EXISTS `t_biens_adresse` (
-  `id_type_adresse` int NOT NULL AUTO_INCREMENT,
+  `id_biens_adresse` int NOT NULL AUTO_INCREMENT,
   `fk_biens` int DEFAULT NULL,
   `fk_adresses` int DEFAULT NULL,
-  PRIMARY KEY (`id_type_adresse`),
+  PRIMARY KEY (`id_biens_adresse`),
   KEY `fk_biens_idx` (`fk_biens`),
   KEY `fk_adresse_idx` (`fk_adresses`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -199,10 +243,111 @@ CREATE TABLE IF NOT EXISTS `t_contact` (
   `id_contact` int NOT NULL AUTO_INCREMENT,
   `email` varchar(45) DEFAULT NULL,
   `telephone` varchar(45) DEFAULT NULL,
-  `intitule_type` int DEFAULT NULL,
+  `fk_client` int DEFAULT NULL,
   PRIMARY KEY (`id_contact`),
-  KEY `intitule_type_idx` (`intitule_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  KEY `fk_client_idx` (`fk_client`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `t_contact`
+--
+
+INSERT INTO `t_contact` (`id_contact`, `email`, `telephone`, `fk_client`) VALUES
+(1, 'dupont.jean@gmail.com', '0123456789', 1),
+(2, 'lefevre.sophie@gmail.com', '0234567891', 2),
+(3, 'martin.thomas@gmail.com', '0345678912', 3),
+(4, 'gagnon.elise@gmail.com', '0456789123', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `t_type`
+--
+
+DROP TABLE IF EXISTS `t_type`;
+CREATE TABLE IF NOT EXISTS `t_type` (
+  `id_type` int NOT NULL AUTO_INCREMENT,
+  `intitule_type` varchar(50) NOT NULL,
+  `date_ins_type` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `t_type`
+--
+
+INSERT INTO `t_type` (`id_type`, `intitule_type`, `date_ins_type`) VALUES
+(8, 'Maison', '2023-06-12 02:16:39'),
+(9, 'Appartement', '2023-06-12 02:16:39'),
+(10, 'Villa', '2023-06-12 02:16:39'),
+(11, 'Studio', '2023-06-12 02:16:39'),
+(12, 'Duplex', '2023-06-12 02:16:39'),
+(13, 'Penthouse', '2023-06-12 02:16:39'),
+(14, 'Chalet', '2023-06-12 02:16:39'),
+(15, 'Ferme', '2023-06-12 02:16:39'),
+(16, 'Château', '2023-06-12 02:16:39'),
+(17, 'Manoir', '2023-06-12 02:16:39'),
+(18, 'Bungalow', '2023-06-12 02:16:39'),
+(19, 'Loft', '2023-06-12 02:16:39'),
+(20, 'Maison de ville', '2023-06-12 02:16:39'),
+(21, 'Maison jumelée', '2023-06-12 02:16:39'),
+(22, 'Maison individuelle', '2023-06-12 02:16:39'),
+(23, 'Ranch', '2023-06-12 02:16:39'),
+(24, 'Immeuble', '2023-06-12 02:16:39'),
+(25, 'Terrain', '2023-06-12 02:16:39'),
+(26, 'Commerce', '2023-06-12 02:16:39'),
+(27, 'Bureau', '2023-06-12 02:16:39'),
+(28, 'Entrepôt', '2023-06-12 02:16:39'),
+(29, 'Garage', '2023-06-12 02:16:39'),
+(30, 'Local commercial', '2023-06-12 02:16:39'),
+(31, 'Hôtel', '2023-06-12 02:16:39'),
+(32, 'Restaurant', '2023-06-12 02:16:39'),
+(33, 'Bar', '2023-06-12 02:16:39'),
+(34, 'Café', '2023-06-12 02:16:39'),
+(35, 'Cabinet médical', '2023-06-12 02:16:39'),
+(36, 'Pharmacie', '2023-06-12 02:16:39'),
+(37, 'École', '2023-06-12 02:16:39'),
+(38, 'Gymnase', '2023-06-12 02:16:39'),
+(39, 'Salle de sport', '2023-06-12 02:16:39'),
+(40, 'Centre commercial', '2023-06-12 02:16:39'),
+(41, 'Supermarché', '2023-06-12 02:16:39'),
+(42, 'Cinéma', '2023-06-12 02:16:39'),
+(43, 'Théâtre', '2023-06-12 02:16:39'),
+(44, 'Musée', '2023-06-12 02:16:39'),
+(45, 'Parc', '2023-06-12 02:16:39'),
+(46, 'Stade', '2023-06-12 02:16:39'),
+(47, 'Aéroport', '2023-06-12 02:16:39'),
+(48, 'Gare', '2023-06-12 02:16:39'),
+(49, 'Port', '2023-06-12 02:16:39'),
+(50, 'Hôpital', '2023-06-12 02:16:39');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `t_type_bien`
+--
+
+DROP TABLE IF EXISTS `t_type_bien`;
+CREATE TABLE IF NOT EXISTS `t_type_bien` (
+  `id_type_bien` int NOT NULL AUTO_INCREMENT,
+  `fk_type` int NOT NULL,
+  `fk_bien` int NOT NULL,
+  `date_insert_type` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_type_bien`),
+  KEY `fk_bien` (`fk_bien`),
+  KEY `fk_type` (`fk_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `t_type_bien`
+--
+
+INSERT INTO `t_type_bien` (`id_type_bien`, `fk_type`, `fk_bien`, `date_insert_type`) VALUES
+(11, 9, 198, '2023-06-12 00:29:50'),
+(12, 19, 198, '2023-06-12 00:29:50'),
+(13, 14, 198, '2023-06-12 00:29:50'),
+(14, 15, 198, '2023-06-12 00:29:50'),
+(15, 33, 216, '2023-06-12 00:30:18');
 
 --
 -- Contraintes pour les tables déchargées
@@ -212,20 +357,27 @@ CREATE TABLE IF NOT EXISTS `t_contact` (
 -- Contraintes pour la table `t_biens`
 --
 ALTER TABLE `t_biens`
-  ADD CONSTRAINT `intitule_type_biens` FOREIGN KEY (`intitule_type`) REFERENCES `t_client` (`id_client`);
+  ADD CONSTRAINT `fk_client_biens` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`);
 
 --
 -- Contraintes pour la table `t_biens_adresse`
 --
 ALTER TABLE `t_biens_adresse`
   ADD CONSTRAINT `fk_adresse` FOREIGN KEY (`fk_adresses`) REFERENCES `t_adresses` (`id_adresses`),
-  ADD CONSTRAINT `fk_biens` FOREIGN KEY (`fk_biens`) REFERENCES `t_biens` (`id_type`);
+  ADD CONSTRAINT `fk_biens` FOREIGN KEY (`fk_biens`) REFERENCES `t_biens` (`id_biens`);
 
 --
 -- Contraintes pour la table `t_contact`
 --
 ALTER TABLE `t_contact`
-  ADD CONSTRAINT `intitule_type` FOREIGN KEY (`intitule_type`) REFERENCES `t_client` (`id_client`);
+  ADD CONSTRAINT `fk_client` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`);
+
+--
+-- Contraintes pour la table `t_type_bien`
+--
+ALTER TABLE `t_type_bien`
+  ADD CONSTRAINT `fk_bien` FOREIGN KEY (`fk_bien`) REFERENCES `t_biens` (`id_biens`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `fk_type` FOREIGN KEY (`fk_type`) REFERENCES `t_type` (`id_type`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
